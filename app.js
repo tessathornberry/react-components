@@ -1,25 +1,42 @@
-// TODO
-const GroceryList = () => (
+const { useState } = React;
+
+const App = () => (
     <div>
         <h3>Grocery List</h3>
-        <GroceryListItem items={['Coffee', 'Coffee filters']}/>
+        <GroceryList items={['Coffee', 'Coffee filters', 'Eggs', 'Spam']}/>
     </div>
-);
+  )
 
-const GroceryListItem = (props) => (
-  <ul>
-    <li>{props.items[0]}</li>
-    <li>{props.items[1]}</li>
-  </ul>
-)
+  const GroceryList = (props) => {
+    const onListItemClick = function(event) {
+      console.log('I got clicked');
+    };
 
-const Coffee = () => (
-    <li>Coffee</li>
-);
+    return (
+      <ul>
+        {/* <li onClick={onListItemClick}>{props.items[0]}</li> */}
+        {props.items.map((item) => (
+          <GroceryListItem item={item} />
+        ))}
+     </ul>
+    )
+}
+
+const GroceryListItem = (props) => {
+
+  const [isHover, setIsHover] = useState(false);
+  const style = {
+    fontWeight: isHover ? 'bold' : 'normal'
+  };
+
+  return (
+    <li style={style}
+    onMouseEnter={() => setIsHover(true)}
+    onMouseLeave={() => setIsHover(false)}>
+    {props.item}
+    </li>
+  )
+};
 
 
-const CoffeeFilters = () => (
-    <li>Coffee filters</li>
-);
-
-ReactDOM.render(<GroceryList/>, document.getElementById("app"));
+ReactDOM.render(<App/>, document.getElementById("app"));
